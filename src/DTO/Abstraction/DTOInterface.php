@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Alk\TLE\DTO\Abstraction;
+namespace Hastegan\Tle\DTO\Abstraction;
 
 interface DTOInterface
 {

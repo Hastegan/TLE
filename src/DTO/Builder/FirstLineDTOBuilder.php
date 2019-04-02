@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace Alk\TLE\DTO\Builder;
+namespace Hastegan\Tle\DTO\Builder;
 
-use Alk\TLE\DTO\Abstraction\DTOInterface;
-use Alk\TLE\DTO\Builder\Abstraction\DTOBuilderInterface;
-use Alk\TLE\DTO\FirstLineDTO;
+use Hastegan\Tle\DTO\Abstraction\DTOInterface;
+use Hastegan\Tle\DTO\Builder\Abstraction\DTOBuilderInterface;
+use Hastegan\Tle\DTO\FirstLineDTO;
 
 class FirstLineDTOBuilder implements DTOBuilderInterface
 {

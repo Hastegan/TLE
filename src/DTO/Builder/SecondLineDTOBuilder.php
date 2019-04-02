@@ -1,12 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace Alk\TLE\DTO\Builder;
+namespace Hastegan\Tle\DTO\Builder;
 
-use Alk\TLE\DTO\Abstraction\DTOInterface;
-use Alk\TLE\DTO\Builder\Abstraction\DTOBuilderInterface;
-use Alk\TLE\DTO\SecondLineDTO;
-use Alk\TLE\Utility\StringUtilities;
+use Hastegan\Tle\DTO\Abstraction\DTOInterface;
+use Hastegan\Tle\DTO\Builder\Abstraction\DTOBuilderInterface;
+use Hastegan\Tle\DTO\SecondLineDTO;
+use Hastegan\Tle\Utility\StringUtilities;
 use UnexpectedValueException;
 
 class SecondLineDTOBuilder implements DTOBuilderInterface

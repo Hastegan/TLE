@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace Alk\TLE\DTO;
+namespace Hastegan\Tle\DTO;
 
-use Alk\TLE\DTO\Abstraction\DTOInterface;
+use Hastegan\Tle\DTO\Abstraction\DTOInterface;
 
 class SecondLineDTO implements DTOInterface
 {

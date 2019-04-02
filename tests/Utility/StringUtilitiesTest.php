@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace Alk\TLE\Tests\Utility;
+namespace Hastegan\Tle\Tests\Utility;
 
-use Alk\TLE\Utility\StringUtilities;
+use Hastegan\Tle\Utility\StringUtilities;
 use PHPUnit\Framework\TestCase;
 
 class StringUtilitiesTest extends TestCase

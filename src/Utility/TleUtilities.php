@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace Alk\TLE\Utility;
+namespace Hastegan\Tle\Utility;
 
-use Alk\TLE\Exception\TleLineWithNoChecksumLengthException;
+use Hastegan\Tle\Exception\TleLineWithNoChecksumLengthException;
 
 /**
  * The checks performed here are made based on:

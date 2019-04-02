@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace Alk\TLE\DTO\Builder\Abstraction;
+namespace Hastegan\Tle\DTO\Builder\Abstraction;
 
-use Alk\TLE\DTO\Abstraction\DTOInterface;
+use Hastegan\Tle\DTO\Abstraction\DTOInterface;
 
 interface DTOBuilderInterface
 {
