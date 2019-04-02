@@ -1,0 +1,21 @@
+{
+    "name": "alk/tle",
+    "description": "Two Line Elements tools",
+    "type": "library",
+    "require": {},
+    "authors": [
+        {
+            "name": "Aleksandre Bourgeat",
+            "email": "bourgeataleks@protonmail.com"
+        }
+    ],
+    "require-dev": {
+        "phpunit/phpunit": "^8"
+    },
+    "minimum-stability": "dev",
+    "autoload": {
+        "classmap": [
+            "src/"
+        ]
+    }
+}
