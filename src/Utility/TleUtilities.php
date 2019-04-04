@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Hastegan\Tle\Utility;
 
+use DateTime;
 use Hastegan\Tle\Exception\TleLineWithNoChecksumLengthException;
 
 /**
@@ -14,32 +15,20 @@ class TleUtilities
 {
     public const STRICT = 1;
 
-    public const FIRST_LINE_NUMBER = '1';
-    public const SECOND_LINE_NUMBER = '2';
-
     public const CLASSIFICATION_UNCLASSIFIED = 'U';
 
     /**
      * @param string $line
-     * @param int    $flag
      *
      * @return bool
      */
-    public static function firstLineNumberIsValid(string $line, int $flag = 0): bool
+    public static function firstLineNumberIsValid(string $line): bool
     {
-        if (self::STRICT === $flag) {
-            if (2 > strlen($line)) {
-                return false;
-            }
-
-            return StringUtilities::startsWith($line, self::FIRST_LINE_NUMBER . ' ');
-        }
-
-        if (0 === strlen($line)) {
+        if (2 > strlen($line)) {
             return false;
         }
 
-        return StringUtilities::startsWith($line, self::FIRST_LINE_NUMBER);
+        return '1 ' === substr($line, 0, 2);
     }
 
     /**
@@ -53,11 +42,7 @@ class TleUtilities
             return false;
         }
 
-        if (0 === (int) $satelliteNumber) {
-            return false;
-        }
-
-        return true;
+        return 0 !== (int) $satelliteNumber;
     }
 
     /**
@@ -81,8 +66,17 @@ class TleUtilities
      */
     public static function internationalDesignatorIsValid(string $internationalDesignator): bool
     {
-        // Todo
-        return false;
+        $internationalDesignator = rtrim($internationalDesignator);
+
+        if (5 !== strlen($internationalDesignator)) {
+            return false;
+        }
+
+        if (!ctype_digit($internationalDesignator)) {
+            return false;
+        }
+
+        return 0 !== (int) substr($internationalDesignator, 2, 3);
     }
 
     /**
@@ -92,8 +86,13 @@ class TleUtilities
      */
     public static function payloadIsValid(string $payload): bool
     {
-        // Todo
-        return false;
+        $payload = rtrim($payload);
+
+        if (3 < strlen($payload)) {
+            return false;
+        }
+
+        return preg_match('/^[A-Z]{0,3}$/', $payload) === 1;
     }
 
     /**
@@ -103,8 +102,43 @@ class TleUtilities
      */
     public static function elementSetEpochIsValid(string $epoch): bool
     {
-        // Todo
-        return false;
+        if (14 !== strlen($epoch)) {
+            return false;
+        }
+
+        if ('.' !== $epoch{5}) {
+            return false;
+        }
+
+        if (!ctype_digit(substr($epoch, 0, 2))) {
+            return false;
+        }
+
+        if (!ctype_digit(ltrim(substr($epoch, 2, 3)))) {
+            return false;
+        }
+
+        if (!ctype_digit(substr($epoch, 6, 8))) {
+            return false;
+        }
+
+        $twoDigitsYear = (int) substr($epoch, 0, 2);
+
+        $year = 1900;
+        if (57 >= $twoDigitsYear) {
+            $year = 2000;
+        }
+
+        $year = (string) ($year + $twoDigitsYear);
+
+        $isLeapYear = DateTime::createFromFormat('Y', $year)->format('L') === '1';
+
+        $maxDays = 365;
+        if ($isLeapYear) {
+            $maxDays = 366;
+        }
+
+        return $maxDays > (float) substr($epoch, 2, 12);
     }
 
     /**
@@ -114,8 +148,19 @@ class TleUtilities
      */
     public static function firstTimeMeanMotionDerivativeIsValid(string $meanMotion): bool
     {
-        // Todo
-        return false;
+        if (10 !== strlen($meanMotion)) {
+            return false;
+        }
+
+        if (!in_array($meanMotion{0}, [' ', '-', '+'])) {
+            return false;
+        }
+
+        if ('.' !== $meanMotion{1}) {
+            return false;
+        }
+
+        return ctype_digit(substr($meanMotion, 2, 8));
     }
 
     /**
@@ -125,8 +170,7 @@ class TleUtilities
      */
     public static function secondTimeMeanMotionDerivativeIsValid(string $meanMotion): bool
     {
-        // Todo
-        return false;
+        return '00000-00' === $meanMotion;
     }
 
     /**
@@ -136,8 +180,19 @@ class TleUtilities
      */
     public static function bStarDragIsValid(string $drag): bool
     {
-        // Todo
-        return false;
+        if (7 !== strlen($drag)) {
+            return false;
+        }
+
+        if ('-' !== $drag{5}) {
+            return false;
+        }
+
+        if (!ctype_digit(substr($drag, 0, 5))) {
+            return false;
+        }
+
+        return ctype_digit(substr($drag, 6, 1));
     }
 
     /**
@@ -147,8 +202,25 @@ class TleUtilities
      */
     public static function elementSetTypeIsValid(string $type): bool
     {
-        // Todo
-        return false;
+        return '0' === $type;
+    }
+
+    /**
+     * @param string $type
+     *
+     * @return bool
+     */
+    public static function elementSetNumberIsValid(string $type): bool
+    {
+        if (3 !== strlen($type)) {
+            return false;
+        }
+
+        if (!ctype_digit(ltrim($type))) {
+            return false;
+        }
+
+        return 0 !== (int) $type;
     }
 
     /**
@@ -186,25 +258,16 @@ class TleUtilities
 
     /**
      * @param string $line
-     * @param int    $flag
      *
      * @return bool
      */
-    public static function secondLineNumberIsValid(string $line, int $flag = 0): bool
+    public static function secondLineNumberIsValid(string $line): bool
     {
-        if (self::STRICT === $flag) {
-            if (2 > strlen($line)) {
-                return false;
-            }
-
-            return StringUtilities::startsWith($line, self::SECOND_LINE_NUMBER . ' ');
-        }
-
-        if (0 === strlen($line)) {
+        if (2 > strlen($line)) {
             return false;
         }
 
-        return StringUtilities::startsWith($line, self::SECOND_LINE_NUMBER);
+        return '2 ' === substr($line, 0, 2);
     }
 
     /**
@@ -236,11 +299,11 @@ class TleUtilities
      */
     public static function eccentricityIsValid(string $eccentricity): bool
     {
-        if (empty($eccentricity)) {
+        if (7 !== strlen($eccentricity)) {
             return false;
         }
 
-        return is_numeric($eccentricity);
+        return ctype_digit($eccentricity);
     }
 
     /**

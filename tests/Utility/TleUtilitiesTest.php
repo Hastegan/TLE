@@ -26,32 +26,6 @@ class TleUtilitiesTest extends TestCase
     public function firstLineNumberIsValidProvider(): array
     {
         return [
-            ['1', true],
-            ['1 ', true],
-            ['1foo', true],
-            ['2', false],
-            ['2 ', false],
-            ['foo', false],
-        ];
-    }
-
-    /**
-     * @dataProvider firstLineNumberIsValidStrictProvider
-     *
-     * @param string $line
-     * @param bool   $expected
-     */
-    public function testFirstLineNumberIsValidStrict(string $line, bool $expected): void
-    {
-        $this->assertEquals($expected, TleUtilities::firstLineNumberIsValid($line, TleUtilities::STRICT));
-    }
-
-    /**
-     * @return array
-     */
-    public function firstLineNumberIsValidStrictProvider(): array
-    {
-        return [
             ['1 ', true],
             ['1 foo', true],
             ['', false],
@@ -130,9 +104,19 @@ class TleUtilitiesTest extends TestCase
      */
     public function internationalDesignatorIsValidProvider(): array
     {
-        // Todo
         return [
-            ['foo', true],
+            ['00001', true],
+            ['00001', true],
+            ['98067', true],
+            ['01001', true],
+            ['', false],
+            ['98', false],
+            ['98000', false],
+            ['98  1', false],
+            ['way too long', false],
+            ['a0000', false],
+            ['00000', false],
+            ['98067A', false],
         ];
     }
 
@@ -152,9 +136,15 @@ class TleUtilitiesTest extends TestCase
      */
     public function payloadIsValidProvider(): array
     {
-        // Todo
         return [
-            ['foo', true],
+            ['', true],
+            ['A', true],
+            ['BA', true],
+            ['ABC', true],
+            ['AAAA', false],
+            ['1', false],
+            ['-', false],
+            ['*', false],
         ];
     }
 
@@ -174,9 +164,21 @@ class TleUtilitiesTest extends TestCase
      */
     public function elementSetEpochIsValidProvider(): array
     {
-        // Todo
         return [
-            ['foo', true],
+            ['00000.00000000', true],
+            ['98001.00000010', true],
+            ['98  1.00000010', true],
+            ['12365.50000000', true],
+            ['', false],
+            ['00000000000000', false],
+            ['00000.000000000', false],
+            ['00000.0', false],
+            ['0.000000000', false],
+            ['a0000.00000000', false],
+            [' 1000.00000000', false],
+            ['01367.00000000', false],
+            ['11365.50000000', false],
+            ['11   .50000000', false],
         ];
     }
 
@@ -196,9 +198,13 @@ class TleUtilitiesTest extends TestCase
      */
     public function firstTimeMeanMotionDerivativeIsValidProvider(): array
     {
-        // Todo
         return [
-            ['foo', true],
+            ['+.00000000', true],
+            ['-.00000000', true],
+            [' .00000000', true],
+            ['00000000', false],
+            ['+.00      ', false],
+            ['+.0000000a', false],
         ];
     }
 
@@ -218,9 +224,10 @@ class TleUtilitiesTest extends TestCase
      */
     public function secondTimeMeanMotionDerivativeIsValidProvider(): array
     {
-        // Todo
         return [
-            ['foo', true],
+            ['00000-0', true],
+            ['0000-0', false],
+            ['000000-0', false],
         ];
     }
 
@@ -240,9 +247,14 @@ class TleUtilitiesTest extends TestCase
      */
     public function bStarDragIsValidProvider(): array
     {
-        // Todo
         return [
-            ['foo', true],
+            ['38310-4', true],
+            ['00000-0', true],
+            ['0000000', false],
+            ['00000-', false],
+            ['00000-00', false],
+            ['      0', false],
+            ['    0-0', false],
         ];
     }
 
@@ -262,9 +274,42 @@ class TleUtilitiesTest extends TestCase
      */
     public function elementSetTypeIsValidProvider(): array
     {
-        // Todo
         return [
-            ['foo', true],
+            ['0', true],
+            ['', false],
+            ['00', false],
+            ['1', false],
+            ['1', false],
+            ['a', false],
+        ];
+    }
+
+    /**
+     * @dataProvider elementSetNumberIsValidProvider
+     *
+     * @param string $elementSetNumber
+     * @param bool   $expected
+     */
+    public function testElementSetNumberIsValid(string $elementSetNumber, bool $expected): void
+    {
+        $this->assertEquals($expected, TleUtilities::elementSetNumberIsValid($elementSetNumber));
+    }
+
+    /**
+     * @return array
+     */
+    public function elementSetNumberIsValidProvider(): array
+    {
+        return [
+            ['  1', true],
+            [' 91', true],
+            ['999', true],
+            ['  0', false],
+            ['   ', false],
+            ['  a', false],
+            ['aaa', false],
+            ['9999', false],
+            ['99', false],
         ];
     }
 
@@ -318,32 +363,6 @@ class TleUtilitiesTest extends TestCase
     public function secondLineNumberIsValidProvider(): array
     {
         return [
-            ['2', true],
-            ['2 ', true],
-            ['2foo', true],
-            ['1', false],
-            ['1 ', false],
-            ['foo', false],
-        ];
-    }
-
-    /**
-     * @dataProvider secondLineNumberIsValidStrictProvider
-     *
-     * @param string $line
-     * @param bool   $expected
-     */
-    public function testSecondLineNumberIsValidStrict(string $line, bool $expected): void
-    {
-        $this->assertEquals($expected, TleUtilities::secondLineNumberIsValid($line, TleUtilities::STRICT));
-    }
-
-    /**
-     * @return array
-     */
-    public function secondLineNumberIsValidStrictProvider(): array
-    {
-        return [
             ['2 ', true],
             ['2 foo', true],
             ['', false],
@@ -370,7 +389,7 @@ class TleUtilitiesTest extends TestCase
     {
         // Todo
         return [
-            ['foo', true],
+            ['foo', false],
         ];
     }
 
@@ -392,7 +411,7 @@ class TleUtilitiesTest extends TestCase
     {
         // Todo
         return [
-            ['foo', true],
+            ['foo', false],
         ];
     }
 
@@ -412,9 +431,14 @@ class TleUtilitiesTest extends TestCase
      */
     public function eccentricityIsValidProducer(): array
     {
-        // Todo
         return [
-            ['foo', true],
+            ['0000000', true],
+            ['0000007', true],
+            ['0000000', true],
+            ['00000000', false],
+            ['000000', false],
+            ['aaaaaaa', false],
+            ['       ', false],
         ];
     }
 
@@ -436,7 +460,7 @@ class TleUtilitiesTest extends TestCase
     {
         // Todo
         return [
-            ['foo', true],
+            ['foo', false],
         ];
     }
 
@@ -458,7 +482,7 @@ class TleUtilitiesTest extends TestCase
     {
         // Todo
         return [
-            ['foo', true],
+            ['foo', false],
         ];
     }
 
@@ -480,7 +504,7 @@ class TleUtilitiesTest extends TestCase
     {
         // Todo
         return [
-            ['foo', true],
+            ['foo', false],
         ];
     }
 }
