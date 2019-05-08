@@ -1,15 +1,19 @@
-# Use the latest 2.1 version of CircleCI pipeline processing engine, see https://circleci.com/docs/2.0/configuration-reference/
 version: 2.1
 
-# Use a package of configuration called an orb, see https://circleci.com/docs/2.0/orb-intro/
-orbs:
-  # Declare a dependency on the welcome-orb
-  welcome: circleci/welcome-orb@0.3.1
+jobs:
+  test:
+    docker:
+      - image: circleci/php:7.2-cli
+    working_directory: ~/src
+    steps:
+      - checkout
+      - run: sudo composer self-update
+      - run: composer install -n --prefer-dist
+      - run: vendor/bin/phpunit
+      - run: vendor/bin/phpmd src/ text cleancode,codesize,controversial,design,naming,unusedcode
 
-# Orchestrate or schedule a set of jobs, see https://circleci.com/docs/2.0/workflows/
 workflows:
-  # Name the workflow "Welcome"
-  Welcome:
-    # Run the welcome/run job in its own container
+  version: 2.1
+  build_and_test:
     jobs:
-      - welcome/run
+      - test
