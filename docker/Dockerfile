@@ -8,6 +8,7 @@ RUN apt-get -y update \
     && add-apt-repository -y ppa:ondrej/php \
     && apt-get -y update \
     && apt-get install -y php7.2 \
+        php7.2-zip \
         php7.2-xml \
         php7.2-mbstring \
         vim \
