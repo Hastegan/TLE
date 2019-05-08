@@ -1,0 +1,9 @@
+version: '3'
+
+services:
+  php:
+    container_name: tle-php
+    build: ./docker
+    volumes:
+      - .:/src
+    entrypoint: tail -f /dev/null
