@@ -387,9 +387,15 @@ class TleUtilitiesTest extends TestCase
      */
     public function orbitInclinationIsValidProducer(): array
     {
-        // Todo
         return [
-            ['foo', false],
+            ['50.0000', true],
+            ['01.0000', true],
+            [' 1.0000', true],
+            [' 0.0001', true],
+            ['0.0000', false],
+            ['5000000', false],
+            ['aa.0000', false],
+            [' 0.aaaa', false],
         ];
     }
 
@@ -409,9 +415,16 @@ class TleUtilitiesTest extends TestCase
      */
     public function ascendingNodeIsValidProducer(): array
     {
-        // Todo
         return [
-            ['foo', false],
+            ['001.1234', true],
+            ['  1.1234', true],
+            ['100.1234', true],
+            ['360.0000', true],
+            ['361.0000', false],
+            ['36100000', false],
+            ['1.0000', false],
+            ['361.00001', false],
+            ['  a.aaaaa', false],
         ];
     }
 
@@ -458,9 +471,16 @@ class TleUtilitiesTest extends TestCase
      */
     public function argumentOfPerigeeIsValidProducer(): array
     {
-        // Todo
         return [
-            ['foo', false],
+            ['001.1234', true],
+            ['  1.1234', true],
+            ['100.1234', true],
+            ['360.0000', true],
+            ['361.0000', false],
+            ['36100000', false],
+            ['1.0000', false],
+            ['361.00001', false],
+            ['  a.aaaaa', false],
         ];
     }
 
@@ -480,9 +500,16 @@ class TleUtilitiesTest extends TestCase
      */
     public function meanAnomalyIsValidProducer(): array
     {
-        // Todo
         return [
-            ['foo', false],
+            ['001.1234', true],
+            ['  1.1234', true],
+            ['100.1234', true],
+            ['360.0000', true],
+            ['361.0000', false],
+            ['36100000', false],
+            ['1.0000', false],
+            ['361.00001', false],
+            ['  a.aaaaa', false],
         ];
     }
 
@@ -502,9 +529,16 @@ class TleUtilitiesTest extends TestCase
      */
     public function meanMotionIsValidProducer(): array
     {
-        // Todo
         return [
-            ['foo', false],
+            ['15.72125391', true],
+            ['01.72125391', true],
+            [' 1.72125391', true],
+            ['00.72125391', true],
+            ['  .72125391', false],
+            ['1.72125391', false],
+            ['10.782125391', false],
+            ['aa.72125391', false],
+            ['10.aaaaaaaa', false],
         ];
     }
 }

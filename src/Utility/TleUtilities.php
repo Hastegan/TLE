@@ -170,7 +170,23 @@ class TleUtilities
      */
     public static function secondTimeMeanMotionDerivativeIsValid(string $meanMotion): bool
     {
-        return '00000-00' === $meanMotion;
+        if (strlen($meanMotion) !== 7) {
+            return false;
+        }
+
+        if ($meanMotion{5} !== '-') {
+            return false;
+        }
+
+        if (!ctype_digit(substr($meanMotion, 0, 5))) {
+            return false;
+        }
+
+        if (!ctype_digit(substr($meanMotion, 6, 1))) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -277,8 +293,23 @@ class TleUtilities
      */
     public static function orbitInclinationIsValid(string $inclination): bool
     {
-        // Todo
-        return false;
+        if (strlen($inclination) !== 7) {
+            return false;
+        }
+
+        if ('.' !== $inclination{2}) {
+            return false;
+        }
+
+        if (!ctype_digit(ltrim(substr($inclination, 0, 2)))) {
+            return false;
+        }
+
+        if (!ctype_digit(substr($inclination, 3, 4))) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -288,8 +319,7 @@ class TleUtilities
      */
     public static function ascendingNodeIsValid(string $ascendingNode): bool
     {
-        // Todo
-        return false;
+        return self::checkDegrees($ascendingNode);
     }
 
     /**
@@ -313,8 +343,7 @@ class TleUtilities
      */
     public static function argumentOfPerigeeIsValid(string $argumentOfPerigee): bool
     {
-        // Todo
-        return false;
+        return self::checkDegrees($argumentOfPerigee);
     }
 
     /**
@@ -324,8 +353,7 @@ class TleUtilities
      */
     public static function meanAnomalyIsValid(string $meanAnomaly): bool
     {
-        // Todo
-        return false;
+        return self::checkDegrees($meanAnomaly);
     }
 
     /**
@@ -335,7 +363,48 @@ class TleUtilities
      */
     public static function meanMotionIsValid(string $meanMotion): bool
     {
-        // Todo
-        return false;
+        if (11 !== strlen($meanMotion)) {
+            return false;
+        }
+
+        if ('.' !== $meanMotion{2}) {
+            return false;
+        }
+
+        if (!ctype_digit(ltrim(substr($meanMotion, 0, 2)))) {
+            return false;
+        }
+
+        if (!ctype_digit(substr($meanMotion, 3, 8))) {
+            return false;
+        }
+
+        return true;
     }
+
+    private static function checkDegrees($value): bool
+    {
+        if (8 !== strlen($value)) {
+            return false;
+        }
+
+        if ('.' !== $value{3}) {
+            return false;
+        }
+
+        if (!ctype_digit(ltrim(substr($value, 0, 3)))) {
+            return false;
+        }
+
+        if (!ctype_digit(substr($value, 4, 4))) {
+            return false;
+        }
+
+        if (360 < $value) {
+            return false;
+        }
+
+        return true;
+    }
+
 }
