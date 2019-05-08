@@ -7,6 +7,9 @@ use DateTime;
 use Hastegan\Tle\Exception\TleLineWithNoChecksumLengthException;
 
 /**
+ * @SuppressWarnings(PHPMD.TooManyPublicMethods)
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
+ *
  * The checks performed here are made based on:
  *     - CelesTrak's faq on TLEs (https://celestrak.com/columns/v04n03/)
  *     - SpaceTrak's documentation on TLEs (https://www.space-track.org/documentation#tle)
@@ -60,23 +63,23 @@ class TleUtilities
     }
 
     /**
-     * @param string $internationalDesignator
+     * @param string $intlDesignator
      *
      * @return bool
      */
-    public static function internationalDesignatorIsValid(string $internationalDesignator): bool
+    public static function internationalDesignatorIsValid(string $intlDesignator): bool
     {
-        $internationalDesignator = rtrim($internationalDesignator);
+        $intlDesignator = rtrim($intlDesignator);
 
-        if (5 !== strlen($internationalDesignator)) {
+        if (5 !== strlen($intlDesignator)) {
             return false;
         }
 
-        if (!ctype_digit($internationalDesignator)) {
+        if (!ctype_digit($intlDesignator)) {
             return false;
         }
 
-        return 0 !== (int) substr($internationalDesignator, 2, 3);
+        return 0 !== (int) substr($intlDesignator, 2, 3);
     }
 
     /**
