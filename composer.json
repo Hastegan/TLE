@@ -2,6 +2,7 @@
     "name": "platerre/tle",
     "description": "Two Line Elements tools",
     "type": "library",
+    "license": "MIT",
     "require": {},
     "authors": [
         {
