@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace Hastegan\Tle\Utility;
+namespace Platerre\Tle\Utility;
 
 use DateTime;
-use Hastegan\Tle\Exception\TleLineWithNoChecksumLengthException;
+use Platerre\Tle\Exception\TleLineWithNoChecksumLengthException;
 
 /**
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)

@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace Hastegan\Tle\Tests\Utility;
+namespace Platerre\Tle\Tests\Utility;
 
-use Hastegan\Tle\Exception\TleLineWithNoChecksumLengthException;
-use Hastegan\Tle\Utility\TleUtilities;
+use Platerre\Tle\Exception\TleLineWithNoChecksumLengthException;
+use Platerre\Tle\Utility\TleUtilities;
 use PHPUnit\Framework\TestCase;
 
 class TleUtilitiesTest extends TestCase

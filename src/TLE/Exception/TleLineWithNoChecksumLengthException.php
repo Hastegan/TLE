@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Hastegan\Tle\Exception;
+namespace Platerre\Tle\Exception;
 
 use UnexpectedValueException;
 
